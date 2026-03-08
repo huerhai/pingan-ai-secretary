@@ -8,8 +8,59 @@ const mockData = {
     coveredEmployees: 368,
     totalTasks: 3456,
     coverage: 13.62,
-    totalSkills: 86
+    totalSkills: 86,
+    totalCases: 42
   },
+  // 18个部门
+  departments: [
+    '数智平台团队', '理赔管理部', '精算部', '企划财务部', '互联网平台部',
+    '市场营销部', '客户服务部', '健康管理部', '产品设计部', '核保管理部',
+    '合规风险管理部', '人力资源部', '行政后勤部', '信息技术部', '战略发展部',
+    '客户服务运营部', '医疗保险事业部', '团体保险事业部'
+  ],
+  // 8个机构
+  institutions: [
+    { name: '上海', code: 'SH' },
+    { name: '北京', code: 'BJ' },
+    { name: '广东', code: 'GD' },
+    { name: '湖南', code: 'HN' },
+    { name: '河北', code: 'HE' },
+    { name: '天津', code: 'TJ' },
+    { name: '江苏', code: 'JS' },
+    { name: '深圳', code: 'SZ' }
+  ],
+  // 部门AI渗透率排行榜（18个部门）
+  deptPenetration: [
+    { rank: 1, name: '数智平台团队', penetration: 95, employees: 45 },
+    { rank: 2, name: '理赔管理部', penetration: 88, employees: 120 },
+    { rank: 3, name: '精算部', penetration: 82, employees: 35 },
+    { rank: 4, name: '企划财务部', penetration: 75, employees: 58 },
+    { rank: 5, name: '互联网平台部', penetration: 71, employees: 89 },
+    { rank: 6, name: '市场营销部', penetration: 65, employees: 156 },
+    { rank: 7, name: '客户服务部', penetration: 62, employees: 234 },
+    { rank: 8, name: '健康管理部', penetration: 58, employees: 42 },
+    { rank: 9, name: '产品设计部', penetration: 55, employees: 67 },
+    { rank: 10, name: '核保管理部', penetration: 52, employees: 48 },
+    { rank: 11, name: '合规风险管理部', penetration: 48, employees: 36 },
+    { rank: 12, name: '人力资源部', penetration: 45, employees: 52 },
+    { rank: 13, name: '行政后勤部', penetration: 38, employees: 78 },
+    { rank: 14, name: '信息技术部', penetration: 85, employees: 124 },
+    { rank: 15, name: '战略发展部', penetration: 42, employees: 28 },
+    { rank: 16, name: '客户服务运营部', penetration: 68, employees: 189 },
+    { rank: 17, name: '医疗保险事业部', penetration: 58, employees: 95 },
+    { rank: 18, name: '团体保险事业部', penetration: 51, employees: 72 },
+  ],
+  // 机构AI渗透率排行榜（8个机构）
+  instPenetration: [
+    { rank: 1, name: '上海', penetration: 78, employees: 456 },
+    { rank: 2, name: '北京', penetration: 72, employees: 389 },
+    { rank: 3, name: '广东', penetration: 68, employees: 324 },
+    { rank: 4, name: '深圳', penetration: 65, employees: 278 },
+    { rank: 5, name: '江苏', penetration: 58, employees: 198 },
+    { rank: 6, name: '湖南', penetration: 52, employees: 156 },
+    { rank: 7, name: '河北', penetration: 48, employees: 134 },
+    { rank: 8, name: '天津', penetration: 45, employees: 112 },
+  ],
   userSkills: [
     { id: 1, name: 'Excel智能分析', enName: 'Excel Analyzer', category: '数据分析', tags: ['数据分析', 'Office'], downloads: 234, rating: 4.8, owner: 'admin', status: 'published', description: '智能分析Excel数据，自动生成图表和报告', version: 'v2.1' },
     { id: 2, name: '智能客服助手', enName: 'Smart Customer Service', category: '客户服务', tags: ['客户服务', 'NLP'], downloads: 0, rating: 0, owner: 'admin', status: 'pending', description: '7x24小时智能客服，自动回答常见问题', version: 'v1.0' },
@@ -24,42 +75,46 @@ const mockData = {
     { id: 1, title: '智能合同审查', category: '文档处理', problem: '需要自动审查保险合同条款，识别风险点', requester: '李娜', dept: '理赔管理部', votes: 45 },
     { id: 2, title: '保单智能解析', category: '数据分析', problem: '将PDF保单内容自动提取并结构化', requester: '王强', dept: '精算部', votes: 38 },
     { id: 3, title: '理赔材料自动识别', category: '自动化流程', problem: '自动识别理赔材料是否齐全，减少人工审核', requester: '赵敏', dept: '理赔管理部', votes: 56 },
+    { id: 4, title: '智能销售话术生成', category: '客户服务', problem: '根据客户画像自动生成个性化销售话术', requester: '钱晨', dept: '市场营销部', votes: 32 },
+    { id: 5, title: '批量报案处理', category: '自动化流程', problem: '批量处理客户报案，自动分类和分配', requester: '张伟', dept: '客户服务部', votes: 28 },
   ],
   // 团队成员数据
   teamMembers: [
     { id: 1, name: '张伟', avatar: '张', dept: '数智平台团队', installed: true, tasks: 156, cases: 3 },
     { id: 2, name: '李娜', avatar: '李', dept: '数智平台团队', installed: true, tasks: 134, cases: 2 },
     { id: 3, name: '王强', avatar: '王', dept: '数智平台团队', installed: true, tasks: 98, cases: 5 },
-    { id: 4, name: '赵敏', avatar: '赵', dept: '数智平台团队', installed: false, tasks: 87, cases: 1 },
+    { id: 4, name: '赵敏', avatar: '赵', dept: '理赔管理部', installed: false, tasks: 87, cases: 1 },
+    { id: 5, name: '钱晨', avatar: '钱', dept: '市场营销部', installed: true, tasks: 112, cases: 4 },
+    { id: 6, name: '孙丽', avatar: '孙', dept: '精算部', installed: true, tasks: 76, cases: 2 },
   ],
   leaderboards: {
     personalTasks: [
-      { rank: 1, name: '张三', dept: '技术部', tasks: 156, avatar: '张' },
-      { rank: 2, name: '李四', dept: '销售部', tasks: 134, avatar: '李' },
-      { rank: 3, name: '王五', dept: '客服部', tasks: 98, avatar: '王' },
-      { rank: 4, name: '赵六', dept: '理赔部', tasks: 87, avatar: '赵' },
-      { rank: 5, name: '钱七', dept: '运营部', tasks: 76, avatar: '钱' },
+      { rank: 1, name: '张伟', dept: '数智平台团队', tasks: 156, avatar: '张' },
+      { rank: 2, name: '李娜', dept: '数智平台团队', tasks: 134, avatar: '李' },
+      { rank: 3, name: '王强', dept: '理赔管理部', tasks: 98, avatar: '王' },
+      { rank: 4, name: '赵敏', dept: '精算部', tasks: 87, avatar: '赵' },
+      { rank: 5, name: '钱晨', dept: '市场营销部', tasks: 76, avatar: '钱' },
     ],
     personalSkills: [
-      { rank: 1, name: '张三', dept: '技术部', skills: 12, avatar: '张' },
-      { rank: 2, name: '李四', dept: '销售部', skills: 8, avatar: '李' },
-      { rank: 3, name: '孙八', dept: '开发部', skills: 6, avatar: '孙' },
-      { rank: 4, name: '周九', dept: '技术部', skills: 5, avatar: '周' },
-      { rank: 5, name: '吴十', dept: '运营部', skills: 4, avatar: '吴' },
+      { rank: 1, name: '张伟', dept: '数智平台团队', skills: 12, avatar: '张' },
+      { rank: 2, name: '李娜', dept: '数智平台团队', skills: 8, avatar: '李' },
+      { rank: 3, name: '王强', dept: '理赔管理部', skills: 6, avatar: '王' },
+      { rank: 4, name: '赵敏', dept: '精算部', skills: 5, avatar: '赵' },
+      { rank: 5, name: '钱晨', dept: '市场营销部', skills: 4, avatar: '钱' },
     ],
     skillDownloads: [
-      { rank: 1, name: '智能客服助手', downloads: 890, owner: '王五' },
-      { rank: 2, name: 'PPT自动生成', downloads: 567, owner: '李四' },
-      { rank: 3, name: '数据可视化', downloads: 456, owner: '钱七' },
-      { rank: 4, name: '理赔自动化', downloads: 234, owner: '赵六' },
-      { rank: 5, name: '代码审查助手', downloads: 189, owner: '孙八' },
+      { rank: 1, name: '智能客服助手', downloads: 890, owner: '王强' },
+      { rank: 2, name: 'PPT自动生成', downloads: 567, owner: '李娜' },
+      { rank: 3, name: '数据可视化', downloads: 456, owner: '张伟' },
+      { rank: 4, name: '理赔自动化', downloads: 234, owner: '赵敏' },
+      { rank: 5, name: '代码审查助手', downloads: 189, owner: '钱晨' },
     ],
     deptUsage: [
-      { rank: 1, name: '技术部', employees: 120, tasks: 4560, perCapita: 38.0 },
-      { rank: 2, name: '客服部', employees: 80, tasks: 2340, perCapita: 29.3 },
-      { rank: 3, name: '理赔部', employees: 95, tasks: 1890, perCapita: 19.9 },
-      { rank: 4, name: '销售部', employees: 200, tasks: 3456, perCapita: 17.3 },
-      { rank: 5, name: '运营部', employees: 60, tasks: 890, perCapita: 14.8 },
+      { rank: 1, name: '数智平台团队', employees: 45, tasks: 4560, perCapita: 38.0 },
+      { rank: 2, name: '理赔管理部', employees: 120, tasks: 2340, perCapita: 29.3 },
+      { rank: 3, name: '精算部', employees: 35, tasks: 1890, perCapita: 19.9 },
+      { rank: 4, name: '企划财务部', employees: 58, tasks: 3456, perCapita: 17.3 },
+      { rank: 5, name: '互联网平台部', employees: 89, tasks: 890, perCapita: 14.8 },
     ]
   },
   taskHistory: {
@@ -69,24 +124,39 @@ const mockData = {
     total: 12340
   },
   skills: [
-    { id: 1, name: 'Excel智能分析', enName: 'Excel Analyzer', category: '数据分析', tags: ['数据分析', 'Office'], downloads: 234, rating: 4.8, owner: '张三', status: 'published', description: '智能分析Excel数据，自动生成图表和报告', version: 'v2.1' },
-    { id: 2, name: 'PPT自动生成', enName: 'PPT Generator', category: '文档处理', tags: ['文档处理', 'PPT'], downloads: 567, rating: 4.9, owner: '李四', status: 'published', description: '根据大纲自动生成精美PPT', version: 'v1.5' },
-    { id: 3, name: '智能客服助手', enName: 'Smart Customer Service', category: '客户服务', tags: ['客户服务', 'NLP'], downloads: 890, rating: 4.7, owner: '王五', status: 'pending', description: '7x24小时智能客服，自动回答常见问题', version: 'v1.0' },
-    { id: 4, name: '理赔自动化', enName: 'Claim Automation', category: '自动化流程', tags: ['自动化', '理赔'], downloads: 456, rating: 4.6, owner: '赵六', status: 'published', description: '自动处理理赔流程，提升效率', version: 'v3.0' },
-    { id: 5, name: '数据可视化', enName: 'Data Visualization', category: '数据分析', tags: ['数据分析', '可视化'], downloads: 789, rating: 4.8, owner: '钱七', status: 'pending', description: '一键生成数据可视化大屏', version: 'v1.2' },
-    { id: 6, name: '代码审查助手', enName: 'Code Reviewer', category: '开发工具', tags: ['开发', '代码'], downloads: 321, rating: 4.5, owner: '孙八', status: 'published', description: '自动审查代码，提出优化建议', version: 'v2.0' },
+    { id: 1, name: 'Excel智能分析', enName: 'Excel Analyzer', category: '数据分析', tags: ['数据分析', 'Office'], downloads: 234, rating: 4.8, owner: '张伟', status: 'published', description: '智能分析Excel数据，自动生成图表和报告', version: 'v2.1' },
+    { id: 2, name: 'PPT自动生成', enName: 'PPT Generator', category: '文档处理', tags: ['文档处理', 'PPT'], downloads: 567, rating: 4.9, owner: '李娜', status: 'published', description: '根据大纲自动生成精美PPT', version: 'v1.5' },
+    { id: 3, name: '智能客服助手', enName: 'Smart Customer Service', category: '客户服务', tags: ['客户服务', 'NLP'], downloads: 890, rating: 4.7, owner: '王强', status: 'pending', description: '7x24小时智能客服，自动回答常见问题', version: 'v1.0' },
+    { id: 4, name: '理赔自动化', enName: 'Claim Automation', category: '自动化流程', tags: ['自动化', '理赔'], downloads: 456, rating: 4.6, owner: '赵敏', status: 'published', description: '自动处理理赔流程，提升效率', version: 'v3.0' },
+    { id: 5, name: '数据可视化', enName: 'Data Visualization', category: '数据分析', tags: ['数据分析', '可视化'], downloads: 789, rating: 4.8, owner: '钱晨', status: 'pending', description: '一键生成数据可视化大屏', version: 'v1.2' },
+    { id: 6, name: '代码审查助手', enName: 'Code Reviewer', category: '开发工具', tags: ['开发', '代码'], downloads: 321, rating: 4.5, owner: '孙丽', status: 'published', description: '自动审查代码，提出优化建议', version: 'v2.0' },
   ],
+  // 优秀案例（包含贡献人）
   cases: [
-    { id: 1, dept: '技术部', title: '智能代码审查系统', efficiency: '89%', users: 156, rating: 4.9, desc: '使用AI自动审查代码，识别潜在bug和安全风险' },
-    { id: 2, dept: '销售部', title: '智能销售助手', efficiency: '35%', users: 234, rating: 4.8, desc: 'AI辅助分析客户需求，生成个性化方案' },
-    { id: 3, dept: '客服部', title: '智能客服机器人', efficiency: '80%', users: 45, rating: 4.7, desc: '7x24小时智能回复，平均响应时间缩短80%' },
-    { id: 4, dept: '理赔部', title: '智能理赔提速', efficiency: '3x', users: 67, rating: 4.9, desc: 'AI自动识别票据，理赔流程自动化' },
+    { id: 1, dept: '数智平台团队', contributor: '张伟', title: '智能代码审查系统', efficiency: '89%', users: 156, rating: 4.9, views: 1234, desc: '使用AI自动审查代码，识别潜在bug和安全风险', content: '本系统通过深度学习模型对代码进行静态分析，能够自动识别常见的安全漏洞和代码质量问题。部署后，代码审查效率提升89%，人工审查工作量减少65%。' },
+    { id: 2, dept: '市场营销部', contributor: '李娜', title: '智能销售助手', efficiency: '35%', users: 234, rating: 4.8, views: 2156, desc: 'AI辅助分析客户需求，生成个性化方案', content: '智能销售助手能够根据客户的历史行为、偏好和需求，自动生成个性化的销售方案和话术。试点团队销售转化率提升35%。' },
+    { id: 3, dept: '客户服务部', contributor: '王强', title: '智能客服机器人', efficiency: '80%', users: 45, rating: 4.7, views: 892, desc: '7x24小时智能回复，平均响应时间缩短80%', content: '基于大语言模型的智能客服机器人，能够处理80%的常见客户咨询，余下20%复杂问题转人工处理。客户满意度提升至4.7分。' },
+    { id: 4, dept: '理赔管理部', contributor: '赵敏', title: '智能理赔提速', efficiency: '3x', users: 67, rating: 4.9, views: 1567, desc: 'AI自动识别票据，理赔流程自动化', content: '通过OCR和AI票据识别技术，实现理赔材料的自动分类和关键信息提取。理赔处理效率提升3倍，平均处理时间从3天缩短至1天。' },
+    { id: 5, dept: '精算部', contributor: '孙丽', title: '智能风险评估', efficiency: '50%', users: 28, rating: 4.6, views: 678, desc: 'AI辅助保险产品风险评估，提升核保效率', content: '利用机器学习模型对投保人风险进行智能评估，帮助精算师快速判断风险等级。核保效率提升50%，人工复核工作量减少40%。' },
+    { id: 6, dept: '企划财务部', contributor: '钱晨', title: '智能财务分析', efficiency: '60%', users: 52, rating: 4.8, views: 945, desc: '自动生成财务分析报告，提升工作效率', content: 'AI财务分析助手能够自动提取财务数据，生成各类分析报表。财务报告生成效率提升60%，数据分析更加精准。' },
   ],
+  // 安全合规考试题库
+  securityExam: {
+    passingScore: 80,
+    questions: [
+      { id: 1, question: '以下哪个行为可能导致公司敏感数据泄露？', options: ['在公共场合讨论工作内容', '使用公司配备的加密设备处理敏感文件', '将工作文件存储在个人网盘', '定期更新账号密码'], correct: 2 },
+      { id: 2, question: 'AI超级秘书平台的使用原则是？', options: ['可以随意分享账号密码', '仅限本人使用，不得分享账号', '可以在非公司设备登录', '可以导出敏感数据到个人设备'], correct: 1 },
+      { id: 3, question: '发现安全漏洞后应该如何处理？', options: ['忽略它', '私下解决后不报告', '立即上报安全部门', '在公开场合讨论'], correct: 2 },
+      { id: 4, question: '以下哪个是强密码的特征？', options: ['使用生日', '使用简单数字', '包含大小写字母、数字和特殊符号', '使用姓名拼音'], correct: 2 },
+      { id: 5, question: '处理客户个人信息时应该？', options: ['随意保存在个人电脑', '按照公司隐私保护政策处理', '分享给无关同事', '打印后随意丢弃'], correct: 1 },
+    ]
+  },
   deptStats: [
-    { name: '技术部', coverage: 92, tasks: 1890, hours: 456, icon: 'code' },
-    { name: '销售部', coverage: 78, tasks: 2340, hours: 389, icon: 'bullhorn' },
-    { name: '客服部', coverage: 85, tasks: 5678, hours: 678, icon: 'headset' },
-    { name: '理赔部', coverage: 68, tasks: 3456, hours: 523, icon: 'file-invoice-dollar' },
+    { name: '数智平台团队', coverage: 95, tasks: 1890, icon: 'code' },
+    { name: '理赔管理部', coverage: 88, tasks: 2340, icon: 'file-invoice-dollar' },
+    { name: '精算部', coverage: 82, tasks: 567, icon: 'calculator' },
+    { name: '企划财务部', coverage: 75, tasks: 890, icon: 'chart-line' },
+    { name: '互联网平台部', coverage: 71, tasks: 1234, icon: 'globe' },
   ],
   tokens: {
     daily: { advanced: 5, lightweight: 5, video: 10 },
@@ -122,6 +192,12 @@ const Navbar = ({ activePage, setActivePage, user, onLogout }) => (
       <button style={activePage === 'help' ? styles.navItemActive : styles.navItem} onClick={() => setActivePage('help')}>
         <i className="fas fa-question-circle"></i> 使用帮助
       </button>
+      <button style={activePage === 'security' ? styles.navItemActive : styles.navItem} onClick={() => setActivePage('security')}>
+        <i className="fas fa-shield-alt"></i> 安全合规
+      </button>
+      <button style={activePage === 'profile' ? styles.navItemActive : styles.navItem} onClick={() => setActivePage('profile')}>
+        <i className="fas fa-user"></i> 个人中心
+      </button>
       {user.role === 'admin' && (
         <button style={activePage === 'admin' ? styles.navItemActive : styles.navItem} onClick={() => setActivePage('admin')}>
           <i className="fas fa-cog"></i> 管理后台
@@ -134,9 +210,6 @@ const Navbar = ({ activePage, setActivePage, user, onLogout }) => (
       )}
     </div>
     <div style={styles.userArea}>
-      <button style={styles.navItem} onClick={() => setActivePage('profile')}>
-        <i className="fas fa-user"></i> {user.name}
-      </button>
       <button style={styles.logoutBtn} onClick={onLogout}>退出</button>
     </div>
   </nav>
@@ -163,7 +236,11 @@ const HomePage = ({ setActivePage }) => (
           </div>
           <div style={styles.statBox}>
             <div style={styles.statNumber}>{mockData.stats.totalSkills}</div>
-            <div style={styles.statLabel}>技能构建数</div>
+            <div style={styles.statLabel}>技能市场技能数</div>
+          </div>
+          <div style={styles.statBox}>
+            <div style={styles.statNumber}>{mockData.stats.totalCases}</div>
+            <div style={styles.statLabel}>优秀案例个数</div>
           </div>
         </div>
       </div>
@@ -193,6 +270,50 @@ const HomePage = ({ setActivePage }) => (
         </div>
       </div>
     </div>
+    
+    {/* AI超级秘书部门渗透率排行榜 */}
+    <div style={styles.leaderboardSection}>
+      <h3 style={styles.leaderboardTitle}><i className="fas fa-trophy"></i> AI超级秘书部门渗透率排行榜</h3>
+      <div style={styles.deptPenetrationGrid}>
+        {/* 部门渗透率排行榜 */}
+        <div style={styles.deptPenetrationCard}>
+          <h4 style={styles.penetrationCardTitle}><i className="fas fa-building"></i> 部门排行榜</h4>
+          <div style={styles.penetrationList}>
+            {mockData.deptPenetration.slice(0, 10).map(dept => (
+              <div key={dept.rank} style={styles.penetrationItem}>
+                <div style={{...styles.penetrationRank, background: dept.rank <= 3 ? '#ffd700' : '#e0e0e0'}}>{dept.rank}</div>
+                <div style={styles.penetrationInfo}>
+                  <div style={styles.penetrationName}>{dept.name}</div>
+                  <div style={styles.penetrationBar}>
+                    <div style={{...styles.penetrationFill, width: `${dept.penetration}%`}}></div>
+                  </div>
+                </div>
+                <div style={styles.penetrationValue}>{dept.penetration}%</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {/* 机构渗透率排行榜 */}
+        <div style={styles.deptPenetrationCard}>
+          <h4 style={styles.penetrationCardTitle}><i className="fas fa-map-marker-alt"></i> 机构排行榜</h4>
+          <div style={styles.penetrationList}>
+            {mockData.instPenetration.map(inst => (
+              <div key={inst.rank} style={styles.penetrationItem}>
+                <div style={{...styles.penetrationRank, background: inst.rank <= 3 ? '#ffd700' : '#e0e0e0'}}>{inst.rank}</div>
+                <div style={styles.penetrationInfo}>
+                  <div style={styles.penetrationName}>{inst.name}</div>
+                  <div style={styles.penetrationBar}>
+                    <div style={{...styles.penetrationFill, width: `${inst.penetration}%`}}></div>
+                  </div>
+                </div>
+                <div style={styles.penetrationValue}>{inst.penetration}%</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 );
 
@@ -203,6 +324,7 @@ const SkillsPage = ({ setActivePage, onSubmitSkill }) => {
   const [showRequestModal, setShowRequestModal] = useState(false);
   const [requestForm, setRequestForm] = useState({ title: '', category: '', problem: '' });
   const [requestVotes, setRequestVotes] = useState({});
+  const [installModalSkill, setInstallModalSkill] = useState(null);
   
   const filteredSkills = mockData.skills.filter(s => 
     s.status === 'published' && 
@@ -223,6 +345,11 @@ const SkillsPage = ({ setActivePage, onSubmitSkill }) => {
   
   const handleVote = (id) => {
     setRequestVotes(prev => ({...prev, [id]: !prev[id]}));
+  };
+  
+  const copyCommand = (cmd) => {
+    navigator.clipboard.writeText(cmd);
+    alert('命令已复制到剪贴板');
   };
   
   return (
@@ -281,7 +408,7 @@ const SkillsPage = ({ setActivePage, onSubmitSkill }) => {
                 <span><i className="fas fa-star"></i> {skill.rating}</span>
               </div>
               <div style={styles.skillActions}>
-                <button style={styles.downloadBtn}><i className="fas fa-download"></i> 下载</button>
+                <button style={styles.downloadBtn} onClick={() => setInstallModalSkill(skill)}><i className="fas fa-download"></i> 安装</button>
                 <button style={styles.detailBtn}>查看详情</button>
               </div>
             </div>
@@ -365,48 +492,240 @@ const SkillsPage = ({ setActivePage, onSubmitSkill }) => {
           </div>
         </div>
       )}
+      
+      {/* 安装弹窗 */}
+      {installModalSkill && (
+        <div style={styles.modalOverlay} onClick={() => setInstallModalSkill(null)}>
+          <div style={styles.modalContent} onClick={e => e.stopPropagation()}>
+            <div style={styles.modalHeader}>
+              <h3 style={styles.modalHeaderTitle}><i className="fas fa-download"></i> 安装技能 - {installModalSkill.name}</h3>
+              <button style={styles.modalClose} onClick={() => setInstallModalSkill(null)}>×</button>
+            </div>
+            <div style={styles.modalBody}>
+              <div style={styles.installMethod}>
+                <h4 style={styles.installMethodTitle}><i className="fas fa-terminal"></i> 安装方式一：命令行安装</h4>
+                <div style={styles.commandBox}>
+                  <code style={styles.commandText}>openclaw skill install {installModalSkill.name}</code>
+                  <button 
+                    style={styles.copyBtn}
+                    onClick={() => copyCommand(`openclaw skill install ${installModalSkill.name}`)}
+                  >
+                    <i className="fas fa-copy"></i> 复制
+                  </button>
+                </div>
+              </div>
+              
+              <div style={styles.installMethod}>
+                <h4 style={styles.installMethodTitle}><i className="fas fa-robot"></i> 安装方式二：AI助手安装（暂不支持）</h4>
+                <p style={styles.installHint}>直接告诉你的AI助手："请安装{installModalSkill.name}"</p>
+              </div>
+              
+              <div style={styles.installMethod}>
+                <h4 style={styles.installMethodTitle}><i className="fas fa-download"></i> 安装方式三：点击下载</h4>
+                <button style={styles.submitBtn} onClick={() => {
+                  alert('技能安装成功！');
+                  setInstallModalSkill(null);
+                }}>
+                  <i className="fas fa-download"></i> 下载安装
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 // 优秀案例页
-const CasesPage = () => (
-  <div style={styles.page}>
-    <div style={styles.pageHeader}>
-      <h2 style={styles.pageTitle}><i className="fas fa-lightbulb"></i> 优秀AI应用案例</h2>
-      <p style={styles.pageSubtitle}>看看各部门是如何运用AI提升工作效率的</p>
-    </div>
-    
-    <div style={styles.casesGrid}>
-      {mockData.cases.map(item => (
-        <div key={item.id} style={styles.caseCard}>
-          <div style={styles.caseImage}>
-            <i className="fas fa-lightbulb"></i>
+const CasesPage = ({ setActivePage }) => {
+  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState('all');
+  const [sortBy, setSortBy] = useState('views');
+  const [selectedCase, setSelectedCase] = useState(null);
+  const [caseLikes, setCaseLikes] = useState({});
+  const [caseComments, setCaseComments] = useState({});
+  
+  const filteredCases = mockData.cases
+    .filter(c => 
+      (category === 'all' || c.dept === category) &&
+      (c.title.includes(search) || c.desc.includes(search) || c.contributor.includes(search))
+    )
+    .sort((a, b) => {
+      if (sortBy === 'views') return b.views - a.views;
+      if (sortBy === 'rating') return b.rating - a.rating;
+      return 0;
+    });
+  
+  const departments = [...new Set(mockData.cases.map(c => c.dept))];
+  
+  const handleLike = (id) => {
+    setCaseLikes(prev => ({...prev, [id]: !prev[id]}));
+  };
+  
+  const handleComment = (id, comment) => {
+    if (!comment.trim()) return;
+    setCaseComments(prev => ({
+      ...prev,
+      [id]: [...(prev[id] || []), { text: comment, date: new Date().toLocaleDateString() }]
+    }));
+  };
+  
+  if (selectedCase) {
+    return (
+      <div style={styles.page}>
+        <button style={styles.backBtn} onClick={() => setSelectedCase(null)}>
+          <i className="fas fa-arrow-left"></i> 返回列表
+        </button>
+        
+        <div style={styles.caseDetailCard}>
+          <div style={styles.caseDetailHeader}>
+            <div>
+              <span style={styles.caseDept}>{selectedCase.dept}</span>
+              <span style={styles.caseContributor}>贡献人：{selectedCase.contributor}</span>
+            </div>
+            <h2 style={styles.caseDetailTitle}>{selectedCase.title}</h2>
           </div>
-          <div style={styles.caseBody}>
-            <span style={styles.caseDept}>{item.dept}</span>
-            <h3 style={styles.caseTitle}>{item.title}</h3>
-            <p style={styles.caseDesc}>{item.desc}</p>
-            <div style={styles.caseStats}>
-              <div style={styles.caseStatItem}>
-                <div style={styles.caseStatNum}>{item.efficiency}</div>
-                <div style={styles.caseStatLabel}>效率提升</div>
+          
+          <div style={styles.caseDetailStats}>
+            <div style={styles.caseStatItem}>
+              <div style={styles.caseStatNum}>{selectedCase.efficiency}</div>
+              <div style={styles.caseStatLabel}>效率提升</div>
+            </div>
+            <div style={styles.caseStatItem}>
+              <div style={styles.caseStatNum}>{selectedCase.views}</div>
+              <div style={styles.caseStatLabel}>阅读人数</div>
+            </div>
+            <div style={styles.caseStatItem}>
+              <div style={styles.caseStatNum}>{selectedCase.rating}</div>
+              <div style={styles.caseStatLabel}>评分</div>
+            </div>
+          </div>
+          
+          <div style={styles.caseDetailContent}>
+            <h3 style={styles.detailSectionTitle}>案例详情</h3>
+            <p style={styles.caseDetailDesc}>{selectedCase.content}</p>
+          </div>
+          
+          <div style={styles.caseDetailActions}>
+            <button 
+              style={caseLikes[selectedCase.id] ? styles.likedBtn : styles.likeBtn}
+              onClick={() => handleLike(selectedCase.id)}
+            >
+              <i className={caseLikes[selectedCase.id] ? 'fas fa-heart' : 'far fa-heart'}></i>
+              {caseLikes[selectedCase.id] ? '已赞' : '点赞'}
+            </button>
+            <div style={styles.ratingSection}>
+              <span>评分：</span>
+              {[1,2,3,4,5].map(star => (
+                <span key={star} style={styles.starIcon}><i className="fas fa-star"></i></span>
+              ))}
+            </div>
+          </div>
+          
+          <div style={styles.commentsSection}>
+            <h3 style={styles.detailSectionTitle}>评论</h3>
+            {(caseComments[selectedCase.id] || []).length === 0 ? (
+              <p style={styles.noComments}>暂无评论，快来抢先评论吧！</p>
+            ) : (
+              <div style={styles.commentsList}>
+                {(caseComments[selectedCase.id] || []).map((comment, idx) => (
+                  <div key={idx} style={styles.commentItem}>
+                    <div style={styles.commentAvatar}>用户</div>
+                    <div style={styles.commentContent}>
+                      <div style={styles.commentText}>{comment.text}</div>
+                      <div style={styles.commentDate}>{comment.date}</div>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div style={styles.caseStatItem}>
-                <div style={styles.caseStatNum}>{item.users}</div>
-                <div style={styles.caseStatLabel}>使用人数</div>
-              </div>
-              <div style={styles.caseStatItem}>
-                <div style={styles.caseStatNum}>{item.rating}</div>
-                <div style={styles.caseStatLabel}>评分</div>
-              </div>
+            )}
+            <div style={styles.commentForm}>
+              <input 
+                type="text" 
+                placeholder="发表评论..."
+                style={styles.commentInput}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter') {
+                    handleComment(selectedCase.id, e.target.value);
+                    e.target.value = '';
+                  }
+                }}
+              />
             </div>
           </div>
         </div>
-      ))}
+      </div>
+    );
+  }
+  
+  return (
+    <div style={styles.page}>
+      <div style={styles.pageHeader}>
+        <h2 style={styles.pageTitle}><i className="fas fa-lightbulb"></i> 优秀AI应用案例</h2>
+        <p style={styles.pageSubtitle}>看看各部门是如何运用AI提升工作效率的</p>
+      </div>
+      
+      <div style={styles.filterBar}>
+        <input 
+          type="text" 
+          placeholder="搜索案例..." 
+          style={styles.searchInput}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <select 
+          style={styles.formSelect}
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="all">全部部门</option>
+          {departments.map(dept => (
+            <option key={dept} value={dept}>{dept}</option>
+          ))}
+        </select>
+        <select 
+          style={styles.formSelect}
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+        >
+          <option value="views">按阅读人数</option>
+          <option value="rating">按评分</option>
+        </select>
+      </div>
+      
+      <div style={styles.casesGrid}>
+        {filteredCases.map(item => (
+          <div key={item.id} style={styles.caseCard} onClick={() => setSelectedCase(item)}>
+            <div style={styles.caseImage}>
+              <i className="fas fa-lightbulb"></i>
+            </div>
+            <div style={styles.caseBody}>
+              <span style={styles.caseDept}>{item.dept}</span>
+              <span style={styles.caseContributor}><i className="fas fa-user"></i> {item.contributor}</span>
+              <h3 style={styles.caseTitle}>{item.title}</h3>
+              <p style={styles.caseDesc}>{item.desc}</p>
+              <div style={styles.caseStats}>
+                <div style={styles.caseStatItem}>
+                  <div style={styles.caseStatNum}>{item.efficiency}</div>
+                  <div style={styles.caseStatLabel}>效率提升</div>
+                </div>
+                <div style={styles.caseStatItem}>
+                  <div style={styles.caseStatNum}>{item.views}</div>
+                  <div style={styles.caseStatLabel}>阅读人数</div>
+                </div>
+                <div style={styles.caseStatItem}>
+                  <div style={styles.caseStatNum}>{item.rating}</div>
+                  <div style={styles.caseStatLabel}>评分</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // 投稿技能页
 const SubmitSkillPage = ({ onBack, user }) => {
@@ -749,6 +1068,203 @@ const DashboardPage = () => {
   );
 };
 
+// 安全合规页
+const SecurityPage = ({ user }) => {
+  const [tab, setTab] = useState('learn');
+  const [examAnswers, setExamAnswers] = useState({});
+  const [examSubmitted, setExamSubmitted] = useState(false);
+  const [examScore, setExamScore] = useState(0);
+  const [hasPassed, setHasPassed] = useState(false);
+  const [showCertificate, setShowCertificate] = useState(false);
+  
+  const handleAnswer = (qId, answer) => {
+    setExamAnswers(prev => ({...prev, [qId]: answer}));
+  };
+  
+  const submitExam = () => {
+    const questions = mockData.securityExam.questions;
+    let correct = 0;
+    questions.forEach(q => {
+      if (examAnswers[q.id] === q.correct) correct++;
+    });
+    const score = Math.round((correct / questions.length) * 100);
+    setExamScore(score);
+    setExamSubmitted(true);
+    if (score >= mockData.securityExam.passingScore) {
+      setHasPassed(true);
+    }
+  };
+  
+  const resetExam = () => {
+    setExamAnswers({});
+    setExamSubmitted(false);
+    setExamScore(0);
+    setHasPassed(false);
+  };
+  
+  if (showCertificate) {
+    return (
+      <div style={styles.page}>
+        <div style={styles.certificateCard}>
+          <div style={styles.certificateHeader}>
+            <i className="fas fa-award" style={styles.certificateIcon}></i>
+            <h2 style={styles.certificateTitle}>荣誉证书</h2>
+          </div>
+          <div style={styles.certificateBody}>
+            <p style={styles.certificateText}>兹证明</p>
+            <h3 style={styles.certificateName}>{user.name}</h3>
+            <p style={styles.certificateText}>已完成AI超级秘书安全合规培训</p>
+            <p style={styles.certificateText}>考试合格，成绩优秀</p>
+            <div style={styles.certificateSeal}>合格</div>
+          </div>
+          <div style={styles.certificateFooter}>
+            <p>平安健康险 数智平台团队</p>
+            <p>{new Date().toLocaleDateString()}</p>
+          </div>
+          <button style={styles.backBtn} onClick={() => setShowCertificate(false)}>
+            <i className="fas fa-arrow-left"></i> 返回
+          </button>
+        </div>
+      </div>
+    );
+  }
+  
+  return (
+    <div style={styles.page}>
+      <div style={styles.pageHeader}>
+        <h2 style={styles.pageTitle}><i className="fas fa-shield-alt"></i> 安全合规</h2>
+        <p style={styles.pageSubtitle}>学习安全规范，通过考试获得高速流量奖励</p>
+      </div>
+      
+      <div style={styles.profileTabs}>
+        <button 
+          style={tab === 'learn' ? styles.profileTabActive : styles.profileTab}
+          onClick={() => setTab('learn')}
+        >
+          <i className="fas fa-book"></i> 安全规范学习
+        </button>
+        <button 
+          style={tab === 'exam' ? styles.profileTabActive : styles.profileTab}
+          onClick={() => setTab('exam')}
+        >
+          <i className="fas fa-clipboard-check"></i> 安全合规考试
+        </button>
+      </div>
+      
+      {tab === 'learn' && (
+        <div style={styles.learnSection}>
+          <div style={styles.learnCard}>
+            <h3 style={styles.learnTitle}><i className="fas fa-user-secret"></i> 账号安全规范</h3>
+            <ul style={styles.learnList}>
+              <li>AI超级秘书账号仅限本人使用，不得借给他人</li>
+              <li>定期修改密码，建议每3个月更换一次</li>
+              <li>密码强度要求：至少8位，包含大小写字母、数字</li>
+              <li>发现账号异常立即联系IT部门</li>
+            </ul>
+          </div>
+          
+          <div style={styles.learnCard}>
+            <h3 style={styles.learnTitle}><i className="fas fa-lock"></i> 数据安全规范</h3>
+            <ul style={styles.learnList}>
+              <li>严禁将公司敏感数据导出到个人设备</li>
+              <li>客户个人信息必须按照公司隐私保护政策处理</li>
+              <li>使用公司配备的加密存储设备处理敏感文件</li>
+              <li>含敏感信息的纸质文档必须碎纸处理</li>
+            </ul>
+          </div>
+          
+          <div style={styles.learnCard}>
+            <h3 style={styles.learnTitle}><i className="fas fa-robot"></i> AI使用规范</h3>
+            <ul style={styles.learnList}>
+              <li>不得使用AI处理国家法律法规禁止的内容</li>
+              <li>不得向AI输入涉及公司商业秘密的信息</li>
+              <li>AI生成的内容需人工审核后方可对外使用</li>
+              <li>遵守公司AI使用合规要求，不得违规操作</li>
+            </ul>
+          </div>
+          
+          <div style={styles.learnCard}>
+            <h3 style={styles.learnTitle}><i className="fas fa-exclamation-triangle"></i> 违规行为处罚</h3>
+            <ul style={styles.learnList}>
+              <li>首次违规：口头警告，扣除当月绩效</li>
+              <li>二次违规：书面警告，取消AI使用资格</li>
+              <li>严重违规：解除劳动合同，追究法律责任</li>
+            </ul>
+          </div>
+          
+          <div style={styles.rewardSection}>
+            <div style={styles.rewardContent}>
+              <div style={styles.rewardText}>
+                <i className="fas fa-graduation-cap"></i>
+                <span>通过安全合规考试可获得<strong>100兆</strong>高速流量奖励</span>
+              </div>
+              <button style={styles.rewardBtn} onClick={() => setTab('exam')}>
+                <i className="fas fa-arrow-right"></i> 前往考试
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {tab === 'exam' && (
+        <div style={styles.examSection}>
+          {!examSubmitted ? (
+            <>
+              <div style={styles.examInfo}>
+                <p>共 {mockData.securityExam.questions.length} 道选择题，达到 {mockData.securityExam.passingScore}% 方可通过</p>
+              </div>
+              {mockData.securityExam.questions.map(q => (
+                <div key={q.id} style={styles.examQuestion}>
+                  <p style={styles.questionText}>{q.id}. {q.question}</p>
+                  <div style={styles.optionsList}>
+                    {q.options.map((opt, idx) => (
+                      <label key={idx} style={styles.optionLabel}>
+                        <input 
+                          type="radio" 
+                          name={`q${q.id}`}
+                          checked={examAnswers[q.id] === idx}
+                          onChange={() => handleAnswer(q.id, idx)}
+                        />
+                        <span style={examAnswers[q.id] === idx ? styles.optionTextSelected : styles.optionText}>
+                          {String.fromCharCode(65 + idx)}. {opt}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              <button 
+                style={Object.keys(examAnswers).length === mockData.securityExam.questions.length ? styles.submitBtn : styles.submitBtnDisabled}
+                onClick={submitExam}
+                disabled={Object.keys(examAnswers).length !== mockData.securityExam.questions.length}
+              >
+                提交试卷
+              </button>
+            </>
+          ) : (
+            <div style={styles.examResult}>
+              <div style={hasPassed ? styles.passCard : styles.failCard}>
+                <i className={hasPassed ? 'fas fa-trophy' : 'fas fa-times-circle'} style={hasPassed ? styles.passIcon : styles.failIcon}></i>
+                <h3>{hasPassed ? '恭喜通过考试！' : '考试未通过'}</h3>
+                <p>您的得分：<strong>{examScore}</strong> 分</p>
+                <p>及格分数：{mockData.securityExam.passingScore} 分</p>
+              </div>
+              {hasPassed && (
+                <button style={styles.rewardBtn} onClick={() => setShowCertificate(true)}>
+                  <i className="fas fa-certificate"></i> 查看证书
+                </button>
+              )}
+              <button style={styles.retryBtn} onClick={resetExam}>
+                {hasPassed ? '重新考试' : '再次尝试'}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
 // 使用帮助页
 const HelpPage = () => (
   <div style={styles.page}>
@@ -801,8 +1317,11 @@ const HelpPage = () => (
 // 个人中心页
 const ProfilePage = ({ user, setActivePage }) => {
   const t = mockData.taskHistory;
+  const [profileTab, setProfileTab] = useState('tokens');
   const [taskPeriod, setTaskPeriod] = useState('daily');
   const [chartData, setChartData] = useState(t.daily);
+  const [showApplyModal, setShowApplyModal] = useState(false);
+  const [applyForm, setApplyForm] = useState({ reason: '', amount: '' });
   
   const handlePeriodChange = (period) => {
     setTaskPeriod(period);
@@ -810,6 +1329,13 @@ const ProfilePage = ({ user, setActivePage }) => {
   };
   
   const maxValue = Math.max(...chartData);
+  
+  const handleApplySubmit = (e) => {
+    e.preventDefault();
+    alert('申请已提交，等待领导审批');
+    setShowApplyModal(false);
+    setApplyForm({ reason: '', amount: '' });
+  };
   
   return (
     <div style={styles.page}>
@@ -825,177 +1351,297 @@ const ProfilePage = ({ user, setActivePage }) => {
         </div>
       </div>
       
-      {/* 我的投稿 */}
-      <div style={styles.tokenSection}>
-        <h3 style={styles.sectionTitle}><i className="fas fa-file-alt"></i> 我的投稿</h3>
-        
-        <div style={styles.userSkillsList}>
-          {mockData.mySubmissions.map(sub => (
-            <div key={sub.id} style={styles.userSkillItem}>
-              <div style={styles.userSkillInfo}>
-                <div style={styles.userSkillIcon}>
-                  <i className={sub.type === 'skill' ? 'fas fa-cube' : 'fas fa-lightbulb'}></i>
-                </div>
-                <div>
-                  <div style={styles.userSkillName}>{sub.title}</div>
-                  <div style={styles.userSkillMeta}>
-                    <span style={sub.status === 'approved' ? styles.statusPublished : styles.statusPending}>
-                      {sub.status === 'approved' ? '已通过' : '审核中'}
-                    </span>
-                    {sub.isExcellent && (
-                      <span style={styles.excellentBadge}><i className="fas fa-star"></i> 优秀</span>
-                    )}
-                    <span style={styles.submissionDate}><i className="fas fa-calendar"></i> {sub.date}</span>
-                    {sub.status === 'approved' && sub.type === 'skill' && (
-                      <span style={styles.downloadCount}><i className="fas fa-download"></i> {sub.downloads}次下载</span>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+      {/* 二级菜单 */}
+      <div style={styles.profileTabs}>
+        <button 
+          style={profileTab === 'tokens' ? styles.profileTabActive : styles.profileTab}
+          onClick={() => setProfileTab('tokens')}
+        >
+          <i className="fas fa-bolt"></i> 高速流量
+        </button>
+        <button 
+          style={profileTab === 'tasks' ? styles.profileTabActive : styles.profileTab}
+          onClick={() => setProfileTab('tasks')}
+        >
+          <i className="fas fa-chart-bar"></i> 任务统计
+        </button>
+        <button 
+          style={profileTab === 'cases' ? styles.profileTabActive : styles.profileTab}
+          onClick={() => setProfileTab('cases')}
+        >
+          <i className="fas fa-lightbulb"></i> 我的案例投稿
+        </button>
+        <button 
+          style={profileTab === 'skills' ? styles.profileTabActive : styles.profileTab}
+          onClick={() => setProfileTab('skills')}
+        >
+          <i className="fas fa-cube"></i> 我分享的技能
+        </button>
+        <button 
+          style={profileTab === 'team' ? styles.profileTabActive : styles.profileTab}
+          onClick={() => setProfileTab('team')}
+        >
+          <i className="fas fa-users"></i> 我的团队
+        </button>
       </div>
       
-      {/* 我上传的技能 */}
-      <div style={styles.tokenSection}>
-        <h3 style={styles.sectionTitle}><i className="fas fa-cube"></i> 我上传的技能</h3>
-        
-        <div style={styles.userSkillsList}>
-          {mockData.userSkills.map(skill => (
-            <div key={skill.id} style={styles.userSkillItem}>
-              <div style={styles.userSkillInfo}>
-                <div style={styles.userSkillIcon}><i className="fas fa-cube"></i></div>
-                <div>
-                  <div style={styles.userSkillName}>{skill.name}</div>
-                  <div style={styles.userSkillMeta}>
-                    <span style={skill.status === 'published' ? styles.statusPublished : styles.statusPending}>
-                      {skill.status === 'published' ? '已通过' : '审核中'}
-                    </span>
-                    {skill.status === 'published' && (
-                      <span style={styles.downloadCount}><i className="fas fa-download"></i> {skill.downloads}次下载</span>
-                    )}
-                  </div>
+      {/* 高速流量 */}
+      {profileTab === 'tokens' && (
+        <div style={styles.tokenSection}>
+          <h3 style={styles.sectionTitle}><i className="fas fa-bolt"></i> 今日高速流量剩余情况</h3>
+          
+          <div style={styles.flowNotice}>
+            <i className="fas fa-info-circle"></i>
+            <span>高速流量：用完限速不限量 | 普通流量：限速100KB/秒 | 每日0点刷新</span>
+          </div>
+          
+          <div style={styles.tokenCards}>
+            <div style={styles.tokenCard}>
+              <div style={styles.tokenLabel}>高级模型</div>
+              <div style={styles.tokenDesc}>每人每日5兆，每日0点刷新</div>
+              <div style={styles.tokenProgress}>
+                <div style={styles.progressBar}>
+                  <div style={{...styles.progressFill, width: `${(mockData.tokens.used.advanced / mockData.tokens.daily.advanced) * 100}%`}}></div>
                 </div>
               </div>
-              <div style={styles.userSkillActions}>
-                <button style={styles.viewBtn}>查看</button>
+              <div style={styles.tokenInfo}>
+                <span>已用: {mockData.tokens.used.advanced}M</span>
+                <span>剩余: {mockData.tokens.remaining.advanced}M / {mockData.tokens.daily.advanced}M</span>
               </div>
             </div>
-          ))}
+            
+            <div style={styles.tokenCard}>
+              <div style={styles.tokenLabel}>轻量模型</div>
+              <div style={styles.tokenDesc}>每人每日5兆，每日0点刷新</div>
+              <div style={styles.tokenProgress}>
+                <div style={styles.progressBar}>
+                  <div style={{...styles.progressFill, width: `${(mockData.tokens.used.lightweight / mockData.tokens.daily.lightweight) * 100}%`, background: '#28a745'}}></div>
+                </div>
+              </div>
+              <div style={styles.tokenInfo}>
+                <span>已用: {mockData.tokens.used.lightweight}M</span>
+                <span>剩余: {mockData.tokens.remaining.lightweight}M / {mockData.tokens.daily.lightweight}M</span>
+              </div>
+            </div>
+            
+            <div style={styles.tokenCard}>
+              <div style={styles.tokenLabel}>文生视频模型</div>
+              <div style={styles.tokenDesc}>每人每日10兆，每日0点刷新</div>
+              <div style={styles.tokenProgress}>
+                <div style={styles.progressBar}>
+                  <div style={{...styles.progressFill, width: `${(mockData.tokens.used.video / mockData.tokens.daily.video) * 100}%`, background: '#9c27b0'}}></div>
+                </div>
+              </div>
+              <div style={styles.tokenInfo}>
+                <span>已用: {mockData.tokens.used.video}M</span>
+                <span>剩余: {mockData.tokens.remaining.video}M / {mockData.tokens.daily.video}M</span>
+              </div>
+            </div>
+          </div>
+          
+          <div style={styles.rewardSection}>
+            <div style={styles.rewardContent}>
+              <div style={styles.rewardText}>
+                <i className="fas fa-graduation-cap"></i>
+                <span>通过安全合规考试可获得<strong>100兆</strong>高速流量奖励</span>
+              </div>
+              <button style={styles.rewardBtn} onClick={() => setActivePage('security')}>
+                <i className="fas fa-arrow-right"></i> 前往考试
+              </button>
+            </div>
+          </div>
+          
+          <button style={styles.applyBtn} onClick={() => setShowApplyModal(true)}>
+            <i className="fas fa-plus"></i> 申请额外流量
+          </button>
+          
+          {showApplyModal && (
+            <div style={styles.modalOverlay} onClick={() => setShowApplyModal(false)}>
+              <div style={styles.modalContent} onClick={e => e.stopPropagation()}>
+                <div style={styles.modalHeader}>
+                  <h3 style={styles.modalHeaderTitle}><i className="fas fa-paper-plane"></i> 申请额外流量</h3>
+                  <button style={styles.modalClose} onClick={() => setShowApplyModal(false)}>×</button>
+                </div>
+                <form onSubmit={handleApplySubmit} style={styles.modalBody}>
+                  <div style={styles.formGroup}>
+                    <label style={styles.formLabel}>申请流量（兆）*</label>
+                    <input 
+                      type="text"
+                      placeholder="请输入申请流量"
+                      style={styles.formInput}
+                      value={applyForm.amount}
+                      onChange={(e) => setApplyForm({...applyForm, amount: e.target.value})}
+                    />
+                  </div>
+                  <div style={styles.formGroup}>
+                    <label style={styles.formLabel}>申请理由 *</label>
+                    <textarea 
+                      style={styles.formTextarea}
+                      placeholder="请说明申请流量的原因..."
+                      value={applyForm.reason}
+                      onChange={(e) => setApplyForm({...applyForm, reason: e.target.value})}
+                      rows={4}
+                    />
+                  </div>
+                  <div style={styles.approvalNotice}>
+                    <i className="fas fa-user-tie"></i> 申请需要直属领导审批
+                  </div>
+                  <button type="submit" style={styles.submitBtn}>提交申请</button>
+                </form>
+              </div>
+            </div>
+          )}
         </div>
-      </div>
+      )}
       
       {/* 任务统计 */}
-      <div style={styles.tokenSection}>
-        <h3 style={styles.sectionTitle}><i className="fas fa-chart-bar"></i> AI任务完成情况</h3>
-        
-        <div style={styles.chartPeriodSelect}>
-          <button 
-            style={taskPeriod === 'daily' ? styles.periodBtnActive : styles.periodBtn}
-            onClick={() => handlePeriodChange('daily')}
-          >
-            按日
-          </button>
-          <button 
-            style={taskPeriod === 'weekly' ? styles.periodBtnActive : styles.periodBtn}
-            onClick={() => handlePeriodChange('weekly')}
-          >
-            按周
-          </button>
-          <button 
-            style={taskPeriod === 'monthly' ? styles.periodBtnActive : styles.periodBtn}
-            onClick={() => handlePeriodChange('monthly')}
-          >
-            按月
-          </button>
+      {profileTab === 'tasks' && (
+        <div style={styles.tokenSection}>
+          <h3 style={styles.sectionTitle}><i className="fas fa-chart-bar"></i> AI任务完成情况</h3>
+          
+          <div style={styles.chartPeriodSelect}>
+            <button 
+              style={taskPeriod === 'daily' ? styles.periodBtnActive : styles.periodBtn}
+              onClick={() => handlePeriodChange('daily')}
+            >
+              按日
+            </button>
+            <button 
+              style={taskPeriod === 'weekly' ? styles.periodBtnActive : styles.periodBtn}
+              onClick={() => handlePeriodChange('weekly')}
+            >
+              按周
+            </button>
+            <button 
+              style={taskPeriod === 'monthly' ? styles.periodBtnActive : styles.periodBtn}
+              onClick={() => handlePeriodChange('monthly')}
+            >
+              按月
+            </button>
+          </div>
+          
+          <div style={styles.chartContainer}>
+            <div style={styles.chart}>
+              {chartData.map((value, index) => (
+                <div key={index} style={styles.chartBar}>
+                  <div 
+                    style={{
+                      ...styles.barFill, 
+                      height: `${(value / maxValue) * 100}%`
+                    }}
+                  ></div>
+                  <span style={styles.barLabel}>
+                    {taskPeriod === 'daily' ? `${index + 1}日` : taskPeriod === 'weekly' ? `第${index + 1}周` : `${index + 1}月`}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div style={styles.totalTasks}>
+            <span>历史累计完成任务数：</span>
+            <span style={styles.totalTasksNum}>{t.total}</span>
+          </div>
         </div>
-        
-        <div style={styles.chartContainer}>
-          <div style={styles.chart}>
-            {chartData.map((value, index) => (
-              <div key={index} style={styles.chartBar}>
-                <div 
-                  style={{
-                    ...styles.barFill, 
-                    height: `${(value / maxValue) * 100}%`
-                  }}
-                ></div>
-                <span style={styles.barLabel}>
-                  {taskPeriod === 'daily' ? `${index + 1}日` : taskPeriod === 'weekly' ? `第${index + 1}周` : `${index + 1}月`}
-                </span>
+      )}
+      
+      {/* 我的案例投稿 */}
+      {profileTab === 'cases' && (
+        <div style={styles.tokenSection}>
+          <h3 style={styles.sectionTitle}><i className="fas fa-lightbulb"></i> 我的AI应用案例投稿</h3>
+          
+          <div style={styles.userSkillsList}>
+            {mockData.mySubmissions.filter(s => s.type === 'case').map(sub => (
+              <div key={sub.id} style={styles.userSkillItem}>
+                <div style={styles.userSkillInfo}>
+                  <div style={styles.userSkillIcon}>
+                    <i className="fas fa-lightbulb"></i>
+                  </div>
+                  <div>
+                    <div style={styles.userSkillName}>{sub.title}</div>
+                    <div style={styles.userSkillMeta}>
+                      <span style={sub.status === 'approved' ? styles.statusPublished : styles.statusPending}>
+                        {sub.status === 'approved' ? '已通过' : '审核中'}
+                      </span>
+                      {sub.isExcellent && (
+                        <span style={styles.excellentBadge}><i className="fas fa-star"></i> 优秀</span>
+                      )}
+                      <span style={styles.submissionDate}><i className="fas fa-calendar"></i> {sub.date}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {mockData.mySubmissions.filter(s => s.type === 'case').length === 0 && (
+              <p style={styles.noDataText}>暂无案例投稿</p>
+            )}
+          </div>
+        </div>
+      )}
+      
+      {/* 我分享的技能 */}
+      {profileTab === 'skills' && (
+        <div style={styles.tokenSection}>
+          <h3 style={styles.sectionTitle}><i className="fas fa-cube"></i> 我分享的技能</h3>
+          
+          <div style={styles.userSkillsList}>
+            {mockData.userSkills.map(skill => (
+              <div key={skill.id} style={styles.userSkillItem}>
+                <div style={styles.userSkillInfo}>
+                  <div style={styles.userSkillIcon}><i className="fas fa-cube"></i></div>
+                  <div>
+                    <div style={styles.userSkillName}>{skill.name}</div>
+                    <div style={styles.userSkillMeta}>
+                      <span style={skill.status === 'published' ? styles.statusPublished : styles.statusPending}>
+                        {skill.status === 'published' ? '已通过' : '审核中'}
+                      </span>
+                      {skill.status === 'published' && (
+                        <span style={styles.downloadCount}><i className="fas fa-download"></i> {skill.downloads}次下载</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div style={styles.userSkillActions}>
+                  <button style={styles.viewBtn}>查看</button>
+                </div>
               </div>
             ))}
           </div>
         </div>
-        
-        <div style={styles.totalTasks}>
-          <span>历史累计完成任务数：</span>
-          <span style={styles.totalTasksNum}>{t.total}</span>
-        </div>
-      </div>
+      )}
       
-      <div style={styles.tokenSection}>
-        <h3 style={styles.sectionTitle}><i className="fas fa-coins"></i> 今日高速流量剩余情况</h3>
-        
-        <div style={styles.tokenCards}>
-          <div style={styles.tokenCard}>
-            <div style={styles.tokenLabel}>高级模型</div>
-            <div style={styles.tokenDesc}>每人每日5兆，每日0点刷新</div>
-            <div style={styles.tokenProgress}>
-              <div style={styles.progressBar}>
-                <div style={{...styles.progressFill, width: `${(mockData.tokens.used.advanced / mockData.tokens.daily.advanced) * 100}%`}}></div>
-              </div>
-            </div>
-            <div style={styles.tokenInfo}>
-              <span>已用: {mockData.tokens.used.advanced}M</span>
-              <span>剩余: {mockData.tokens.remaining.advanced}M / {mockData.tokens.daily.advanced}M</span>
-            </div>
-          </div>
+      {/* 我的团队 */}
+      {profileTab === 'team' && (
+        <div style={styles.tokenSection}>
+          <h3 style={styles.sectionTitle}><i className="fas fa-users"></i> 我的团队</h3>
           
-          <div style={styles.tokenCard}>
-            <div style={styles.tokenLabel}>轻量模型</div>
-            <div style={styles.tokenDesc}>每人每日5兆，每日0点刷新</div>
-            <div style={styles.tokenProgress}>
-              <div style={styles.progressBar}>
-                <div style={{...styles.progressFill, width: `${(mockData.tokens.used.lightweight / mockData.tokens.daily.lightweight) * 100}%`, background: '#28a745'}}></div>
+          <div style={styles.teamTable}>
+            <div style={styles.teamHeader}>
+              <div style={styles.teamCell}>员工姓名</div>
+              <div style={styles.teamCell}>所属部门</div>
+              <div style={styles.teamCell}>是否安装</div>
+              <div style={styles.teamCell}>累计AI任务</div>
+              <div style={styles.teamCell}>案例贡献数</div>
+            </div>
+            {mockData.teamMembers.map(member => (
+              <div key={member.id} style={styles.teamRow}>
+                <div style={styles.teamCell}>
+                  <div style={styles.teamAvatar}>{member.avatar}</div>
+                  {member.name}
+                </div>
+                <div style={styles.teamCell}>{member.dept}</div>
+                <div style={styles.teamCell}>
+                  <span style={member.installed ? styles.statusPublished : styles.statusPending}>
+                    {member.installed ? '已安装' : '未安装'}
+                  </span>
+                </div>
+                <div style={styles.teamCell}>{member.tasks}</div>
+                <div style={styles.teamCell}>{member.cases}</div>
               </div>
-            </div>
-            <div style={styles.tokenInfo}>
-              <span>已用: {mockData.tokens.used.lightweight}M</span>
-              <span>剩余: {mockData.tokens.remaining.lightweight}M / {mockData.tokens.daily.lightweight}M</span>
-            </div>
-          </div>
-          
-          <div style={styles.tokenCard}>
-            <div style={styles.tokenLabel}>文生视频模型</div>
-            <div style={styles.tokenDesc}>每人每日10兆，每日0点刷新</div>
-            <div style={styles.tokenProgress}>
-              <div style={styles.progressBar}>
-                <div style={{...styles.progressFill, width: `${(mockData.tokens.used.video / mockData.tokens.daily.video) * 100}%`, background: '#9c27b0'}}></div>
-              </div>
-            </div>
-            <div style={styles.tokenInfo}>
-              <span>已用: {mockData.tokens.used.video}M</span>
-              <span>剩余: {mockData.tokens.remaining.video}M / {mockData.tokens.daily.video}M</span>
-            </div>
+            ))}
           </div>
         </div>
-        
-        <div style={styles.rewardSection}>
-          <div style={styles.rewardContent}>
-            <div style={styles.rewardText}>
-              <i className="fas fa-graduation-cap"></i>
-              <span>通过安全合规考试可获得<strong>100兆</strong>高速流量奖励</span>
-            </div>
-            <button style={styles.rewardBtn} onClick={() => setActivePage('security')}>
-              <i className="fas fa-arrow-right"></i> 前往考试
-            </button>
-          </div>
-        </div>
-        
-        <button style={styles.applyBtn}><i className="fas fa-plus"></i> 申请额外流量</button>
-      </div>
+      )}
     </div>
   );
 };
@@ -1236,6 +1882,7 @@ function App() {
       {activePage === 'cases' && <CasesPage />}
       {activePage === 'dashboard' && <DashboardPage />}
       {activePage === 'help' && <HelpPage />}
+      {activePage === 'security' && <SecurityPage user={user} />}
       {activePage === 'profile' && <ProfilePage user={user} setActivePage={setActivePage} />}
       {(activePage === 'admin') && <AdminPage user={user} />}
     </div>
