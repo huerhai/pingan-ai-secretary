@@ -11,6 +11,26 @@ const mockData = {
     totalSkills: 86,
     totalCases: 42
   },
+  // 消息通知数据
+  notifications: {
+    // 最新更新
+    latestUpdates: [
+      { id: 1, title: 'V2.1版本发布', content: '新增智能分析功能，支持多维度数据处理', date: '2026-03-08', type: 'update' },
+      { id: 2, title: '技能市场改版', content: '全新UI设计，分类筛选更便捷', date: '2026-03-05', type: 'update' },
+    ],
+    // 通知公告
+    announcements: [
+      { id: 1, title: '关于开展AI技能培训的通知', content: '将于3月15日开展全员AI技能培训，请各部门做好准备', date: '2026-03-07', important: true },
+      { id: 2, title: '技能市场暂停服务公告', content: '系统维护通知：3月10日凌晨2:00-4:00暂停服务', date: '2026-03-06', important: false },
+    ],
+    // 我的消息
+    myMessages: [
+      { id: 1, title: '您的技能已通过审核', content: 'Excel智能分析技能已通过审核，正式上线！', date: '2026-03-07', read: false },
+      { id: 2, title: '您有新的评论', content: '张伟评论了您的"智能客服助手"技能', date: '2026-03-06', read: false },
+      { id: 3, title: '技能下载提醒', content: '您的"理赔自动化"技能被下载了5次', date: '2026-03-05', read: true },
+      { id: 4, title: '系统消息', content: '欢迎加入AI超级秘书大家庭！', date: '2026-03-01', read: true },
+    ]
+  },
   // 18个部门
   departments: [
     '数智平台团队', '理赔管理部', '精算部', '企划财务部', '互联网平台部',
@@ -170,7 +190,7 @@ const mockData = {
 };
 
 // 导航组件
-const Navbar = ({ activePage, setActivePage, user, onLogout }) => (
+const Navbar = ({ activePage, setActivePage, user, onLogout, notificationCount, onNotificationClick }) => (
   <nav style={styles.navbar}>
     <div style={styles.logo}>
       <i className="fas fa-robot" style={styles.logoIcon}></i>
@@ -210,6 +230,10 @@ const Navbar = ({ activePage, setActivePage, user, onLogout }) => (
       )}
     </div>
     <div style={styles.userArea}>
+      <button style={styles.notificationBtn} onClick={onNotificationClick}>
+        <i className="fas fa-bell"></i>
+        {notificationCount > 0 && <span style={styles.notificationBadge}>{notificationCount}</span>}
+      </button>
       <button style={styles.logoutBtn} onClick={onLogout}>退出</button>
     </div>
   </nav>
@@ -1846,10 +1870,111 @@ const LoginPage = ({ onLogin }) => {
   );
 };
 
+// 消息通知弹框组件
+const NotificationModal = ({ isOpen, onClose, notifications }) => {
+  const [activeTab, setActiveTab] = useState('latest'); // latest: 最新更新, announcements: 通知公告, messages: 我的消息
+  
+  if (!isOpen) return null;
+  
+  const unreadCount = notifications.myMessages.filter(m => !m.read).length;
+  
+  return (
+    <div style={styles.modalOverlay} onClick={onClose}>
+      <div style={styles.notificationModal} onClick={e => e.stopPropagation()}>
+        <div style={styles.notificationHeader}>
+          <h3 style={styles.notificationTitle}><i className="fas fa-bell"></i> 消息通知</h3>
+          <button style={styles.notificationClose} onClick={onClose}>
+            <i className="fas fa-times"></i>
+          </button>
+        </div>
+        
+        <div style={styles.notificationTabs}>
+          <button 
+            style={activeTab === 'latest' ? styles.notificationTabActive : styles.notificationTab}
+            onClick={() => setActiveTab('latest')}
+          >
+            <i className="fas fa-rocket"></i> 最新更新
+          </button>
+          <button 
+            style={activeTab === 'announcements' ? styles.notificationTabActive : styles.notificationTab}
+            onClick={() => setActiveTab('announcements')}
+          >
+            <i className="fas fa-volume-up"></i> 通知公告
+            {notifications.announcements.filter(a => a.important).length > 0 && (
+              <span style={styles.notificationDot}></span>
+            )}
+          </button>
+          <button 
+            style={activeTab === 'messages' ? styles.notificationTabActive : styles.notificationTab}
+            onClick={() => setActiveTab('messages')}
+          >
+            <i className="fas fa-envelope"></i> 我的消息
+            {unreadCount > 0 && <span style={styles.notificationBadgeSmall}>{unreadCount}</span>}
+          </button>
+        </div>
+        
+        <div style={styles.notificationContent}>
+          {activeTab === 'latest' && (
+            <div style={styles.notificationList}>
+              {notifications.latestUpdates.map(item => (
+                <div key={item.id} style={styles.notificationItem}>
+                  <div style={styles.notificationItemHeader}>
+                    <span style={styles.notificationItemTitle}>{item.title}</span>
+                    <span style={styles.notificationItemDate}>{item.date}</span>
+                  </div>
+                  <p style={styles.notificationItemContent}>{item.content}</p>
+                </div>
+              ))}
+            </div>
+          )}
+          
+          {activeTab === 'announcements' && (
+            <div style={styles.notificationList}>
+              {notifications.announcements.map(item => (
+                <div key={item.id} style={{...styles.notificationItem, borderLeft: item.important ? '3px solid #ff6b6b' : '3px solid #4ecdc4'}}>
+                  <div style={styles.notificationItemHeader}>
+                    <span style={styles.notificationItemTitle}>
+                      {item.important && <span style={styles.importantTag}>重要</span>}
+                      {item.title}
+                    </span>
+                    <span style={styles.notificationItemDate}>{item.date}</span>
+                  </div>
+                  <p style={styles.notificationItemContent}>{item.content}</p>
+                </div>
+              ))}
+            </div>
+          )}
+          
+          {activeTab === 'messages' && (
+            <div style={styles.notificationList}>
+              {notifications.myMessages.map(item => (
+                <div key={item.id} style={{...styles.notificationItem, background: item.read ? 'transparent' : '#f0f7ff'}}>
+                  <div style={styles.notificationItemHeader}>
+                    <span style={{...styles.notificationItemTitle, fontWeight: item.read ? 400 : 600}}>
+                      {!item.read && <span style={styles.unreadDot}></span>}
+                      {item.title}
+                    </span>
+                    <span style={styles.notificationItemDate}>{item.date}</span>
+                  </div>
+                  <p style={styles.notificationItemContent}>{item.content}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // 主应用
 function App() {
   const [user, setUser] = useState(null);
   const [activePage, setActivePage] = useState('home');
+  const [showNotification, setShowNotification] = useState(false);
+  
+  // 计算未读消息数量
+  const notificationCount = mockData.notifications.myMessages.filter(m => !m.read).length;
   
   const handleLogin = (userData) => {
     setUser(userData);
@@ -1875,7 +2000,14 @@ function App() {
   
   return (
     <div style={styles.app}>
-      <Navbar activePage={activePage} setActivePage={setActivePage} user={user} onLogout={handleLogout} />
+      <Navbar 
+        activePage={activePage} 
+        setActivePage={setActivePage} 
+        user={user} 
+        onLogout={handleLogout}
+        notificationCount={notificationCount}
+        onNotificationClick={() => setShowNotification(true)}
+      />
       {activePage === 'home' && <HomePage setActivePage={setActivePage} />}
       {activePage === 'skills' && <SkillsPage setActivePage={setActivePage} onSubmitSkill={handleSubmitSkill} />}
       {activePage === 'submitSkill' && <SubmitSkillPage onBack={handleBackToSkillsFromSubmit} user={user} />}
@@ -1885,6 +2017,12 @@ function App() {
       {activePage === 'security' && <SecurityPage user={user} />}
       {activePage === 'profile' && <ProfilePage user={user} setActivePage={setActivePage} />}
       {(activePage === 'admin') && <AdminPage user={user} />}
+      
+      <NotificationModal 
+        isOpen={showNotification} 
+        onClose={() => setShowNotification(false)}
+        notifications={mockData.notifications}
+      />
     </div>
   );
 }
