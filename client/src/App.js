@@ -1879,7 +1879,7 @@ const NotificationModal = ({ isOpen, onClose, notifications }) => {
   const unreadCount = notifications.myMessages.filter(m => !m.read).length;
   
   return (
-    <div style={styles.modalOverlay} onClick={onClose}>
+    <div style={styles.notificationOverlay} onClick={onClose}>
       <div style={styles.notificationModal} onClick={e => e.stopPropagation()}>
         <div style={styles.notificationHeader}>
           <h3 style={styles.notificationTitle}><i className="fas fa-bell"></i> 消息通知</h3>

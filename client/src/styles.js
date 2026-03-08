@@ -4010,7 +4010,7 @@ const styles = {
   },
   
   // 消息通知弹框样式
-  modalOverlay: {
+  notificationOverlay: {
     position: 'fixed',
     top: 0,
     left: 0,
