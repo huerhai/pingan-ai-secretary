@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from './styles';
 
 // 模拟数据
 const mockData = {
@@ -17,6 +18,19 @@ const mockData = {
     { id: 1, title: 'Excel智能分析', type: 'skill', status: 'approved', isExcellent: true, date: '2026-03-01', downloads: 234 },
     { id: 2, title: '智能客服助手', type: 'skill', status: 'pending', isExcellent: false, date: '2026-03-07', downloads: 0 },
     { id: 3, title: '理赔自动化案例', type: 'case', status: 'approved', isExcellent: true, date: '2026-02-28', downloads: 0 },
+  ],
+  // 技能需求数据
+  skillRequests: [
+    { id: 1, title: '智能合同审查', category: '文档处理', problem: '需要自动审查保险合同条款，识别风险点', requester: '李娜', dept: '理赔管理部', votes: 45 },
+    { id: 2, title: '保单智能解析', category: '数据分析', problem: '将PDF保单内容自动提取并结构化', requester: '王强', dept: '精算部', votes: 38 },
+    { id: 3, title: '理赔材料自动识别', category: '自动化流程', problem: '自动识别理赔材料是否齐全，减少人工审核', requester: '赵敏', dept: '理赔管理部', votes: 56 },
+  ],
+  // 团队成员数据
+  teamMembers: [
+    { id: 1, name: '张伟', avatar: '张', dept: '数智平台团队', installed: true, tasks: 156, cases: 3 },
+    { id: 2, name: '李娜', avatar: '李', dept: '数智平台团队', installed: true, tasks: 134, cases: 2 },
+    { id: 3, name: '王强', avatar: '王', dept: '数智平台团队', installed: true, tasks: 98, cases: 5 },
+    { id: 4, name: '赵敏', avatar: '赵', dept: '数智平台团队', installed: false, tasks: 87, cases: 1 },
   ],
   leaderboards: {
     personalTasks: [
@@ -186,12 +200,30 @@ const HomePage = ({ setActivePage }) => (
 const SkillsPage = ({ setActivePage, onSubmitSkill }) => {
   const [category, setCategory] = useState('all');
   const [search, setSearch] = useState('');
+  const [showRequestModal, setShowRequestModal] = useState(false);
+  const [requestForm, setRequestForm] = useState({ title: '', category: '', problem: '' });
+  const [requestVotes, setRequestVotes] = useState({});
   
   const filteredSkills = mockData.skills.filter(s => 
     s.status === 'published' && 
     (category === 'all' || s.category === category) &&
     (s.name.includes(search) || s.tags.some(t => t.includes(search)))
   );
+  
+  const handleRequestSubmit = (e) => {
+    e.preventDefault();
+    if (!requestForm.title || !requestForm.category || !requestForm.problem) {
+      alert('请填写完整信息');
+      return;
+    }
+    alert('技能需求已提交！');
+    setShowRequestModal(false);
+    setRequestForm({ title: '', category: '', problem: '' });
+  };
+  
+  const handleVote = (id) => {
+    setRequestVotes(prev => ({...prev, [id]: !prev[id]}));
+  };
   
   return (
     <div style={styles.page}>
@@ -200,6 +232,9 @@ const SkillsPage = ({ setActivePage, onSubmitSkill }) => {
         <p style={styles.pageSubtitle}>发现、分享、创造智能技能</p>
         <button style={styles.submitSkillBtn} onClick={onSubmitSkill}>
           <i className="fas fa-plus"></i> 投稿技能
+        </button>
+        <button style={{...styles.submitSkillBtn, background: 'linear-gradient(135deg, #ff9800 0%, #f57c00 100%)', marginLeft: '10px'}} onClick={() => setShowRequestModal(true)}>
+          <i className="fas fa-lightbulb"></i> 提交需求
         </button>
       </div>
       
@@ -253,6 +288,83 @@ const SkillsPage = ({ setActivePage, onSubmitSkill }) => {
           </div>
         ))}
       </div>
+      
+      {/* 技能需求区域 */}
+      <div style={styles.requestsSection}>
+        <h3 style={styles.requestsTitle}><i className="fas fa-fire"></i> 急需构建的技能</h3>
+        <p style={styles.requestsSubtitle}>以下是需要大家共同构建的技能，欢迎有能力的小伙伴认领</p>
+        <div style={styles.requestsGrid}>
+          {mockData.skillRequests?.map(req => (
+            <div key={req.id} style={styles.requestCard}>
+              <div style={styles.requestHeader}>
+                <span style={styles.requestCategory}>{req.category}</span>
+                <button 
+                  style={requestVotes[req.id] ? styles.votedBtn : styles.voteBtn}
+                  onClick={() => handleVote(req.id)}
+                >
+                  <i className="fas fa-thumbs-up"></i> {req.votes}
+                </button>
+              </div>
+              <h4 style={styles.requestTitle}>{req.title}</h4>
+              <p style={styles.requestProblem}>{req.problem}</p>
+              <div style={styles.requestMeta}>
+                <span><i className="fas fa-user"></i> {req.requester}</span>
+                <span><i className="fas fa-building"></i> {req.dept}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      {/* 技能需求提交弹窗 */}
+      {showRequestModal && (
+        <div style={styles.modalOverlay} onClick={() => setShowRequestModal(false)}>
+          <div style={styles.modalContent} onClick={e => e.stopPropagation()}>
+            <div style={styles.modalHeader}>
+              <h3 style={styles.modalHeaderTitle}><i className="fas fa-lightbulb"></i> 提交技能需求</h3>
+              <button style={styles.modalClose} onClick={() => setShowRequestModal(false)}>×</button>
+            </div>
+            <form onSubmit={handleRequestSubmit} style={styles.modalBody}>
+              <div style={styles.formGroup}>
+                <label style={styles.formLabel}>希望拥有的技能名称 *</label>
+                <input 
+                  type="text"
+                  placeholder="例如：智能合同审查"
+                  style={styles.formInput}
+                  value={requestForm.title}
+                  onChange={(e) => setRequestForm({...requestForm, title: e.target.value})}
+                />
+              </div>
+              <div style={styles.formGroup}>
+                <label style={styles.formLabel}>技能分类 *</label>
+                <select 
+                  style={styles.formSelect}
+                  value={requestForm.category}
+                  onChange={(e) => setRequestForm({...requestForm, category: e.target.value})}
+                >
+                  <option value="">请选择分类</option>
+                  <option value="数据分析">数据分析</option>
+                  <option value="文档处理">文档处理</option>
+                  <option value="客户服务">客户服务</option>
+                  <option value="自动化流程">自动化流程</option>
+                  <option value="开发工具">开发工具</option>
+                </select>
+              </div>
+              <div style={styles.formGroup}>
+                <label style={styles.formLabel}>希望解决什么问题？ *</label>
+                <textarea 
+                  style={styles.formTextarea}
+                  placeholder="描述你希望AI技能帮你完成什么工作..."
+                  value={requestForm.problem}
+                  onChange={(e) => setRequestForm({...requestForm, problem: e.target.value})}
+                  rows={4}
+                />
+              </div>
+              <button type="submit" style={styles.submitBtn}>提交需求</button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -824,11 +936,12 @@ const ProfilePage = ({ user, setActivePage }) => {
       </div>
       
       <div style={styles.tokenSection}>
-        <h3 style={styles.sectionTitle}><i className="fas fa-coins"></i> 今日Token额度</h3>
+        <h3 style={styles.sectionTitle}><i className="fas fa-coins"></i> 今日高速流量剩余情况</h3>
         
         <div style={styles.tokenCards}>
           <div style={styles.tokenCard}>
             <div style={styles.tokenLabel}>高级模型</div>
+            <div style={styles.tokenDesc}>每人每日5兆，每日0点刷新</div>
             <div style={styles.tokenProgress}>
               <div style={styles.progressBar}>
                 <div style={{...styles.progressFill, width: `${(mockData.tokens.used.advanced / mockData.tokens.daily.advanced) * 100}%`}}></div>
@@ -842,6 +955,7 @@ const ProfilePage = ({ user, setActivePage }) => {
           
           <div style={styles.tokenCard}>
             <div style={styles.tokenLabel}>轻量模型</div>
+            <div style={styles.tokenDesc}>每人每日5兆，每日0点刷新</div>
             <div style={styles.tokenProgress}>
               <div style={styles.progressBar}>
                 <div style={{...styles.progressFill, width: `${(mockData.tokens.used.lightweight / mockData.tokens.daily.lightweight) * 100}%`, background: '#28a745'}}></div>
@@ -855,6 +969,7 @@ const ProfilePage = ({ user, setActivePage }) => {
           
           <div style={styles.tokenCard}>
             <div style={styles.tokenLabel}>文生视频模型</div>
+            <div style={styles.tokenDesc}>每人每日10兆，每日0点刷新</div>
             <div style={styles.tokenProgress}>
               <div style={styles.progressBar}>
                 <div style={{...styles.progressFill, width: `${(mockData.tokens.used.video / mockData.tokens.daily.video) * 100}%`, background: '#9c27b0'}}></div>
@@ -867,7 +982,19 @@ const ProfilePage = ({ user, setActivePage }) => {
           </div>
         </div>
         
-        <button style={styles.applyBtn}><i className="fas fa-plus"></i> 申请额外算力</button>
+        <div style={styles.rewardSection}>
+          <div style={styles.rewardContent}>
+            <div style={styles.rewardText}>
+              <i className="fas fa-graduation-cap"></i>
+              <span>通过安全合规考试可获得<strong>100兆</strong>高速流量奖励</span>
+            </div>
+            <button style={styles.rewardBtn} onClick={() => setActivePage('security')}>
+              <i className="fas fa-arrow-right"></i> 前往考试
+            </button>
+          </div>
+        </div>
+        
+        <button style={styles.applyBtn}><i className="fas fa-plus"></i> 申请额外流量</button>
       </div>
     </div>
   );
